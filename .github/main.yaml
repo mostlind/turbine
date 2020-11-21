@@ -1,0 +1,27 @@
+name: Deploy Main
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  build:
+    name: Build, push, and deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-go@v2
+      with:
+        go-version: '1.15.2' # The Go version to download (if necessary) and use.
+        
+    - run: go run github.com/mitchellh/gox
+
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: bin
+        path: |
+          turbine_*
+          
