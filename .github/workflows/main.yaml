@@ -16,7 +16,7 @@ jobs:
       with:
         go-version: '1.15.2' # The Go version to download (if necessary) and use.
         
-    - run: go run github.com/mitchellh/gox -osearch="!darwin/386"
+    - run: go run github.com/mitchellh/gox -osarch="!darwin/386"
 
     - name: Archive production artifacts
       uses: actions/upload-artifact@v2
