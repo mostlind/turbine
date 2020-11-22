@@ -40,23 +40,26 @@ func main() {
 				Usage:   "run a script defined in turbine.dhall",
 				Flags: []cli.Flag{
 					&cli.StringFlag{
-						Name:    "name",
-						Aliases: []string{"n"},
-						Usage:   "The name of the script to run",
+						Name:     "name",
+						Aliases:  []string{"n"},
+						Usage:    "The name of the script to run",
+						Required: true,
 					},
 				},
 				Action: func(c *cli.Context) error {
 					config := readConfig(configDir)
 
-					var script *Script
+					var script Script
+					found := false
 
 					for _, theScript := range config.Scripts {
 						if theScript.Name == c.String("name") {
-							script = &theScript
+							found = true
+							script = theScript
 						}
 					}
 
-					if script == nil {
+					if !found {
 						log.Fatal("The specified script is not defined in turbine.dhall")
 					}
 
